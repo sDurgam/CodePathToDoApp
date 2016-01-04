@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="flatUIText">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="fl_theme">@array/sea</item>
+        <item name="fl_textAppearance">1</item>
+        <item name="fl_fontFamily">roboto</item>
+        <item name="fl_fontWeight">dark</item>
+        <item name="fl_fontExtension">ttf</item>
+        <item name="fl_fieldStyle">0</item>
+    </style>
+    <style name="flatUIReviewText" parent="flatUIText">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <!--<item name="android:textSize">22sp</item>-->
+    </style>
+    <style name="flatUIEditText">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="fl_theme">@array/sea</item>
+        <item name="fl_textAppearance">1</item>
+        <item name="fl_fontFamily">roboto</item>
+        <item name="fl_fontWeight">dark</item>
+        <item name="fl_fontExtension">ttf</item>
+        <item name="fl_borderWidth">1dp</item>
+        <item name="fl_size">1dp</item>
+        <item name="fl_fieldStyle">0</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">left</item>
+
+    </style>
+
+    <style name="fontfamily">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_marginTop">8sp</item>
+    </style>
+
+    <style name="flatUIReviewEditText" parent="flatUIEditText">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_marginTop">8sp</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+</resources>
