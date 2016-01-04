@@ -117,6 +117,22 @@ public class TodoQueries
         writer.close();
     }
 
+    public void UpdateStatus(String name, String status)
+    {
+        SQLiteDatabase writer = dbHelper.getWritableDatabase();
+        if(GetItemCount(writer, name) > 0)
+        {
+        //, String whereClause, String[] whereArgs) {
+            //update todo list
+            String whereClause = SQLiteDBHelper.KEY_NAME + " = ?";
+            String[] whereArgs = new String[] {name};
+            ContentValues cv = new ContentValues();
+            cv.put(SQLiteDBHelper.KEY_STATUS, status);
+            writer.update(SQLiteDBHelper.TABLE_TODOITEM, cv, whereClause, whereArgs);
+        }
+        writer.close();
+    }
+
     public void AddItem(TodoItem todoObj)
     {
         SQLiteDatabase writer = dbHelper.getWritableDatabase();

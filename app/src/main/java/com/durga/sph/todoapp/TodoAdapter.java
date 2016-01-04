@@ -1,17 +1,21 @@
 package com.durga.sph.todoapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cengalabs.flatui.views.FlatButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by durga on 12/29/15.
@@ -39,8 +43,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.AppViewHolder>
         public FlatButton priority;
         public TextView dueDate;
         public TextView dueTime;
+        public CheckBox iscompleted;
         public ImageButton edittoolBarBtn;
-
+        Calendar calendar = Calendar.getInstance();
         public AppViewHolder(View view)
         {
             super(view);
@@ -48,6 +53,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.AppViewHolder>
             priority = (FlatButton) view.findViewById(R.id.todopriority);
             dueDate = (TextView) view.findViewById(R.id.tododuedate);
             dueTime = (TextView) view.findViewById(R.id.tododuetime);
+            iscompleted = (CheckBox) view.findViewById(R.id.checkCompleted);
             edittoolBarBtn = (ImageButton) view.findViewById(R.id.edittoolBarBtn);
         }
     }
@@ -80,15 +86,48 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.AppViewHolder>
                     @Override
                     public boolean onLongClick(View v)
                     {
-                        int position = (int) (view.getTag());
-                        TodoQueries queriesObj = new TodoQueries(ctx, dbHelper);
-                        queriesObj.RemoveTodoItem(todoItemsArray.get(position).getName());
-                        todoItemsArray.remove(position);
-                        notifyDataSetChanged();
+                        final int position = (int) (view.getTag());
+                        //alert the user
+                        new AlertDialog.Builder(ctx).setTitle("Delete Item").setMessage("Are you sure you want to delete this item?")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        TodoQueries queriesObj = new TodoQueries(ctx, dbHelper);
+                                        queriesObj.RemoveTodoItem(todoItemsArray.get(position).getName());
+                                        todoItemsArray.remove(position);
+                                        notifyDataSetChanged();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).show();
                         return false;
                     }
                 });
 
+        ((CheckBox)view.findViewById(R.id.checkCompleted)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+                TodoQueries queries = new TodoQueries(ctx, dbHelper);
+                String todoattr = "";
+                if (view.getTag() != null) {
+                    todoattr = (String)view.getTag();
+                }
+                if (((CheckBox)view).isChecked())
+                {
+                    queries.UpdateStatus(todoattr, String.valueOf(Constants.Status.Done));
+                }
+                else
+                {
+                    queries.UpdateStatus(todoattr, String.valueOf(Constants.Status.Yet_to_complete));
+                }
+            }
+        });
         return new AppViewHolder(view);
     }
 
@@ -112,8 +151,15 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.AppViewHolder>
         {
             holder.priority.setBackground(ctx.getResources().getDrawable(R.drawable.blue_icon));
         }
-
-
+        if(todoitem.getStatus().equals(Constants.Status.Done))
+        {
+            holder.iscompleted.setChecked(true);
+        }
+        else
+        {
+            holder.iscompleted.setChecked(false);
+        }
+        holder.iscompleted.setTag(todoitem.getName());
         holder.dueDate.setText(todoitem.getDuedate());
         holder.dueTime.setText(todoitem.getDuetime());
     }

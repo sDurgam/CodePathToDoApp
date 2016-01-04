@@ -33,7 +33,7 @@ import com.cengalabs.flatui.FlatUI;
         protected void SetUpToolBar()
         {
             toolbar.setTitle(null);
-            toolbar.setLogo(R.drawable.checkboxchecked);
+            toolbar.setLogo(R.drawable.checkicon);
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
