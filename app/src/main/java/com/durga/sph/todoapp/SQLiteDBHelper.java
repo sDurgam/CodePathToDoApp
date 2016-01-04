@@ -34,13 +34,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     public static final String KEY_NAME = "name";
     public static final String KEY_PRIORITY = "priority";
     public static final String KEY_DUEDATE = "duedate";
-    public static final String KEY_DUETIME = "duetime";
+    //public static final String KEY_DUETIME = "duetime";
+    public static final String KEY_RAWTIME = "rawtime";
     public static final String KEY_STATUS = "status";
     public static final String KEY_COMPLETIONDATE = "completiondate";
     public static final String KEY_NOTES = "notes";
     public static final String CREATE_TABLE_TODOITEM =  String.format("CREATE TABLE %s" +
             "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)"
-            , TABLE_TODOITEM, KEY_ID, KEY_NAME, KEY_PRIORITY, KEY_DUEDATE, KEY_DUETIME, KEY_STATUS, KEY_COMPLETIONDATE, KEY_NOTES);
+            , TABLE_TODOITEM, KEY_ID, KEY_NAME, KEY_PRIORITY, KEY_DUEDATE, KEY_RAWTIME, KEY_STATUS, KEY_COMPLETIONDATE, KEY_NOTES);
 
     @Override
     public void onCreate(SQLiteDatabase db)
@@ -60,12 +61,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     {
         Calendar calendar = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        TodoItem todoObj = new TodoItem("item 1", Constants.Priority.High, dateFormat.format(calendar.getTime()).toString(), "", Constants.Status.Yet_to_complete, " ", " ");
+
+        TodoItem todoObj = new TodoItem("item 1", Constants.Priority.High, dateFormat.format(calendar.getTime()).toString(), calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE), Constants.Status.Yet_to_complete, " ", " ");
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME, todoObj.getName());
         cv.put(KEY_PRIORITY, todoObj.getPriority().toString());
         cv.put(KEY_DUEDATE, todoObj.getDuedate());
-        cv.put(KEY_DUETIME, todoObj.getDuetime());
+        cv.put(KEY_RAWTIME, todoObj.getRawtime());
         cv.put(KEY_COMPLETIONDATE, todoObj.getCompletiondate());
         cv.put(KEY_STATUS, todoObj.getStatus().toString());
         cv.put(KEY_NOTES, todoObj.getNotes());

@@ -35,14 +35,18 @@ import com.cengalabs.flatui.FlatUI;
             toolbar.setTitle(null);
             toolbar.setLogo(R.drawable.checkboxchecked);
             setSupportActionBar(toolbar);
-           // getSupportActionBar().setHomeButtonEnabled(true);
-           // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
                 }
             });
+        }
+
+        protected void SetBackToolbar()
+        {
+             getSupportActionBar().setHomeButtonEnabled(true);
+             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         @Override

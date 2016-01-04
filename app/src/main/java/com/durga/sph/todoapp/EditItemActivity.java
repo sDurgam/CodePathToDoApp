@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+
 import java.util.Calendar;
 
 /**
@@ -54,6 +55,7 @@ public class EditItemActivity extends BaseActivity
                 duedateTxt.setText(editObj.getDuedate());
                 completedateTxt.setText(editObj.getCompletiondate());
                 timepickerTxt.setText(editObj.getDuetime());
+                timepickerTxt.setTag(editObj.getRawtime());
                 //prioritySpinner.setSelection();
                 if(editObj.getPriority().equals(Constants.Priority.High))
                 {
@@ -113,6 +115,7 @@ public class EditItemActivity extends BaseActivity
             }
         });
         SetUpToolBar();
+        SetBackToolbar();
     }
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -144,6 +147,7 @@ public class EditItemActivity extends BaseActivity
             String minutestr = (minute < 10) ? ("0" + minute) : String.valueOf(minute);
                     String strHrsToShow = ((datetime.get(Calendar.HOUR) == 0) ?"12":datetime.get(Calendar.HOUR)+":") + minutestr + " ";
             pickTimeTxt.setText(strHrsToShow + " " + am_pm);
+            pickTimeTxt.setTag(hourOfDay + ":" + minute);
             this.getDialog().dismiss();
         }
     }
@@ -174,16 +178,21 @@ public class EditItemActivity extends BaseActivity
 
         public void onDateSet(DatePicker view, int year, int month, int day)
         {
+            String monthStr = "";
+            String dayStr = "";
+            month = month + 1;
+            monthStr = (month < 10 )?  "0" + String.valueOf(month) : String.valueOf(month);
+            dayStr = (day < 10 )?  "0" + String.valueOf(day) : String.valueOf(day);
             // Do something with the date chosen by the user
             if(type.equals("duedate"))
             {
                 EditText duedateTxt = (EditText) getActivity().findViewById(R.id.duedateTxt);
-                duedateTxt.setText((month + 1) + "-" + day + "-" + year);
+                duedateTxt.setText(monthStr + "-" + dayStr + "-" + year);
             }
             else if(type.equals("completiondate"))
             {
                 EditText completiondateTxt = (EditText) getActivity().findViewById(R.id.completiondateTxt);
-                completiondateTxt.setText((month + 1) + "-" + day + "-" + year);
+                completiondateTxt.setText(monthStr + "-" + dayStr + "-" + year);
             }
             this.getDialog().dismiss();
         }
@@ -206,9 +215,10 @@ public class EditItemActivity extends BaseActivity
         String duedate = duedateTxt.getText().toString();
         String completiondate = completedateTxt.getText().toString();
         String duetime = timepickerTxt.getText().toString();
+        String rawtime = timepickerTxt.getTag().toString();
         String notes = notesTxt.getText().toString();
         //public TodoItem(String n, Constants.Priority pr, String ddate, String dt, Constants.Status sts, String cdate, String tnotes)
-        TodoItem todoObj = new TodoItem(name, priority, duedate, duetime, status, completiondate, notes);
+        TodoItem todoObj = new TodoItem(name, priority, duedate, rawtime, status, completiondate, notes);
         editObj = new EditItem(todoObj, itemposition);
         // Prepare data intent
         Intent data = new Intent();

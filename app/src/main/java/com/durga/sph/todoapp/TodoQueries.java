@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +27,7 @@ public class TodoQueries
     public int GetItemCount(SQLiteDatabase writer, String title)
     {
         TodoItem todoObj;
-        String[] args = new String[] {SQLiteDBHelper.KEY_ID, SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_DUETIME, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
+        String[] args = new String[] {SQLiteDBHelper.KEY_ID, SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
         String whereClause = SQLiteDBHelper.KEY_NAME + " = ?";
         String[] whereArgs = new String[] {title};
         Cursor cursor = writer.query(SQLiteDBHelper.TABLE_TODOITEM, args, whereClause, whereArgs, null, null, null, null);
@@ -41,7 +40,7 @@ public class TodoQueries
     {
         TodoItem todoObj;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] args = new String[] {SQLiteDBHelper.KEY_ID, SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_DUETIME, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
+        String[] args = new String[] {SQLiteDBHelper.KEY_ID, SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_RAWTIME, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
         String whereClause = SQLiteDBHelper.KEY_NAME + " = ?";
         String[] whereArgs = new String[] {title};
         Cursor cursor = db.query(SQLiteDBHelper.TABLE_TODOITEM, args, whereClause, whereArgs, null, null, null, null);
@@ -64,16 +63,17 @@ public class TodoQueries
         ArrayList<TodoItem> todoItemsArray = new ArrayList<>();
         TodoItem todoObj;
         SQLiteDatabase  db = dbHelper.getReadableDatabase();
-        String[] args = new String[] {SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_DUETIME, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
+        String[] args = new String[] {SQLiteDBHelper.KEY_ID, SQLiteDBHelper.KEY_NAME, SQLiteDBHelper.KEY_PRIORITY, SQLiteDBHelper.KEY_DUEDATE, SQLiteDBHelper.KEY_RAWTIME, SQLiteDBHelper.KEY_STATUS, SQLiteDBHelper.KEY_COMPLETIONDATE, SQLiteDBHelper.KEY_NOTES};
         Cursor cursor = db.query(SQLiteDBHelper.TABLE_TODOITEM, args, null, null, null, null, null);
-        cursor.moveToFirst();
-        Toast.makeText(ctx, String.valueOf(cursor.getCount()), Toast.LENGTH_LONG).show();
-        do
-        {
-            //(String n, Constants.Priority pr, String ddate, String dt, Constants.Status sts, String cdate, String tnotes)
-            todoObj = new TodoItem(cursor.getString(0), Constants.Priority.valueOf(cursor.getString(1)), cursor.getString(2), cursor.getString(3), Constants.Status.valueOf(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
-            todoItemsArray.add(todoObj);
-        }while(cursor.moveToNext());
+        int count = cursor.getCount();
+        if(count > 0) {
+            cursor.moveToFirst();
+            do {
+                //(String n, Constants.Priority pr, String ddate, String dt, Constants.Status sts, String cdate, String tnotes)
+                todoObj = new TodoItem(cursor.getString(1), Constants.Priority.valueOf(cursor.getString(2)), cursor.getString(3), cursor.getString(4), Constants.Status.valueOf(cursor.getString(5)), cursor.getString(6), cursor.getString(7));
+                todoItemsArray.add(todoObj);
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         db.close();
         return todoItemsArray;
@@ -93,7 +93,7 @@ public class TodoQueries
             cv.put(SQLiteDBHelper.KEY_NAME, todoObj.getName());
             cv.put(SQLiteDBHelper.KEY_PRIORITY, todoObj.getPriority().toString());
             cv.put(SQLiteDBHelper.KEY_DUEDATE, todoObj.getDuedate());
-            cv.put(SQLiteDBHelper.KEY_DUETIME, todoObj.getDuetime());
+            cv.put(SQLiteDBHelper.KEY_RAWTIME, todoObj.getRawtime());
             cv.put(SQLiteDBHelper.KEY_COMPLETIONDATE, todoObj.getCompletiondate());
             cv.put(SQLiteDBHelper.KEY_STATUS, todoObj.getStatus().toString());
             cv.put(SQLiteDBHelper.KEY_NOTES, todoObj.getNotes());
@@ -108,7 +108,7 @@ public class TodoQueries
             cv.put(SQLiteDBHelper.KEY_NAME, todoObj.getName());
             cv.put(SQLiteDBHelper.KEY_PRIORITY, todoObj.getPriority().toString());
             cv.put(SQLiteDBHelper.KEY_DUEDATE, todoObj.getDuedate());
-            cv.put(SQLiteDBHelper.KEY_DUETIME, todoObj.getDuetime());
+            cv.put(SQLiteDBHelper.KEY_RAWTIME, todoObj.getRawtime());
             cv.put(SQLiteDBHelper.KEY_COMPLETIONDATE, todoObj.getCompletiondate());
             cv.put(SQLiteDBHelper.KEY_STATUS, todoObj.getStatus().toString());
             cv.put(SQLiteDBHelper.KEY_NOTES, todoObj.getNotes());
@@ -131,7 +131,7 @@ public class TodoQueries
             cv.put(SQLiteDBHelper.KEY_NAME, todoObj.getName());
             cv.put(SQLiteDBHelper.KEY_PRIORITY, todoObj.getPriority().toString());
             cv.put(SQLiteDBHelper.KEY_DUEDATE, todoObj.getDuedate());
-            cv.put(SQLiteDBHelper.KEY_DUETIME, todoObj.getDuetime());
+            cv.put(SQLiteDBHelper.KEY_RAWTIME, todoObj.getRawtime());
             cv.put(SQLiteDBHelper.KEY_COMPLETIONDATE, todoObj.getCompletiondate());
             cv.put(SQLiteDBHelper.KEY_STATUS, todoObj.getStatus().toString());
             cv.put(SQLiteDBHelper.KEY_NOTES, todoObj.getNotes());
@@ -146,7 +146,7 @@ public class TodoQueries
             cv.put(SQLiteDBHelper.KEY_NAME, todoObj.getName());
             cv.put(SQLiteDBHelper.KEY_PRIORITY, todoObj.getPriority().toString());
             cv.put(SQLiteDBHelper.KEY_DUEDATE, todoObj.getDuedate());
-            cv.put(SQLiteDBHelper.KEY_DUETIME, todoObj.getDuetime());
+            cv.put(SQLiteDBHelper.KEY_RAWTIME, todoObj.getRawtime());
             cv.put(SQLiteDBHelper.KEY_COMPLETIONDATE, todoObj.getCompletiondate());
             cv.put(SQLiteDBHelper.KEY_STATUS, todoObj.getStatus().toString());
             cv.put(SQLiteDBHelper.KEY_NOTES, todoObj.getNotes());

@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:id="@+id/vcardview">
-    <include layout="@layout/app_custom_edit_bar" android:id="@+id/customedittoolbar"/>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/coordinatorLayout1">
+     <include layout="@layout/app_custom_bar" android:id="@+id/customedittoolbar"></include>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_action_save"
+            app:fabSize="normal"
+            app:layout_anchor="@id/coordinatorLayout1"
+            android:layout_gravity="bottom|right|end"
+            app:layout_anchorGravity="bottom|left|end"
+            app:rippleColor="#F06292"
+            android:onClick="SaveClick"
+            />
+    </android.support.design.widget.CoordinatorLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -115,6 +137,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.60"
                             android:layout_marginLeft="5dp"
+                            android:tag=""
                             />
                     </LinearLayout>
                     <LinearLayout

@@ -1,25 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    tools:context=".MainActivity">
     <include layout="@layout/app_custom_bar" android:id="@+id/customtoolbar"></include>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/btnAddItem"
-        android:onClick="onAddItem"
-        android:layout_gravity="center"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lvItems"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8sp"
-        android:scrollbars="horizontal">
-    </android.support.v7.widget.RecyclerView>
+        android:orientation="vertical"
+        android:id="@+id/coordinatorLayout">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lvItems"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal">
+        </android.support.v7.widget.RecyclerView>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:layout_anchor="@id/coordinatorLayout"
+            app:layout_anchorGravity="bottom|right|end"
+            app:rippleColor="#F06292"
+            android:onClick="onAddItem"
+            />
+    </android.support.design.widget.CoordinatorLayout>
+
 </LinearLayout>

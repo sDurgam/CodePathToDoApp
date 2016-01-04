@@ -23,6 +23,7 @@ public class EditItem extends TodoItem
         name = todoitem.getName();
         priority = todoitem.getPriority();
         duedate = todoitem.getDuedate();
+        rawtime = todoitem.getRawtime();
         duetime = todoitem.getDuetime();
         completiondate = todoitem.getCompletiondate();
         status = todoitem.getStatus();
@@ -30,13 +31,14 @@ public class EditItem extends TodoItem
         position = pos;
     }
 
-    public EditItem(int pos, String nm,Constants.Priority pr, String duedatestr, String duetimestr, String cmpdatestr, Constants.Status sts, String nts)
+    public EditItem(int pos, String nm,Constants.Priority pr, String duedatestr, String duetimestr, String rawtimestr, String cmpdatestr, Constants.Status sts, String nts)
     {
         position = pos;
         name = nm;
         priority = pr;
+        rawtime = rawtimestr;
         duedate = duedatestr;
-        duetime = duedatestr;
+        duetime = duetimestr;
         completiondate = cmpdatestr;
         status = sts;
         notes = nts;
