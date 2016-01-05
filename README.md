@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
-<img src='/Todo_App.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='/Todo_App01.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 ## Notes
