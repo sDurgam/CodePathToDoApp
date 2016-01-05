@@ -28,6 +28,7 @@ The following **additional** features are implemented:
 * [ ] Use a DialogFragment for selecting due date, due time, completed time
 * [ ] The items are automatically sorted based on date, priority and due time
 * [ ] User can delete the todo item using long click in the list view
+
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
