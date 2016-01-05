@@ -29,6 +29,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     // Database Name
     private static final String DATABASE_NAME = "todoitems.db";
     public static final String TABLE_TODOITEM = "todoitem";
+    public static final String TABLE_TODOREMINDER = "todoitemreminder";
     //User columns
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
@@ -48,7 +49,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TODOITEM);
         db.execSQL(CREATE_TABLE_TODOITEM);
-        InsertTodoTable(db);
+      //  InsertTodoTable(db);
     }
 
     @Override

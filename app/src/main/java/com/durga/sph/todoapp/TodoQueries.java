@@ -36,6 +36,25 @@ public class TodoQueries
         return count;
     }
 
+    public int GetID(String title)
+    {
+        int ID = -1;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] args = new String[] {SQLiteDBHelper.KEY_ID};
+        String whereClause = SQLiteDBHelper.KEY_NAME + " = ?";
+        String[] whereArgs = new String[] {title};
+        Cursor cursor = db.query(SQLiteDBHelper.TABLE_TODOITEM, args, whereClause, whereArgs, null, null, null, null);
+        int count = cursor.getCount();
+        if(count > 0)
+        {
+            cursor.moveToFirst();
+            ID = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return ID;
+    }
+
     public TodoItem GetItem(String title)
     {
         TodoItem todoObj;
@@ -122,7 +141,7 @@ public class TodoQueries
         SQLiteDatabase writer = dbHelper.getWritableDatabase();
         if(GetItemCount(writer, name) > 0)
         {
-        //, String whereClause, String[] whereArgs) {
+            //, String whereClause, String[] whereArgs) {
             //update todo list
             String whereClause = SQLiteDBHelper.KEY_NAME + " = ?";
             String[] whereArgs = new String[] {name};

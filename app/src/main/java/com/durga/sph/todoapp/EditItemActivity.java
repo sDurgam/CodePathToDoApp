@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,6 +30,7 @@ public class EditItemActivity extends BaseActivity
     Spinner prioritySpinner;
     Spinner statusSpinner;
     EditText notesTxt;
+    CheckBox setReminderCheckBox;
     int itemposition;
     String duedatestr = "duedate";
     String completiondatestr = "completiondate";
@@ -70,15 +72,15 @@ public class EditItemActivity extends BaseActivity
                     prioritySpinner.setSelection(2);
                 }
 
-                if(editObj.getStatus().equals(Constants.Status.Done))
+                if(editObj.getStatus().equals(Constants.Status.Yet_to_complete))
                 {
                     statusSpinner.setSelection(0);
                 }
-                else if(editObj.getStatus().equals(Constants.Status.Unable_to_complete))
+                else if(editObj.getStatus().equals(Constants.Status.Done))
                 {
                     statusSpinner.setSelection(1);
                 }
-                if(editObj.getStatus().equals(Constants.Status.Yet_to_complete))
+                else if(editObj.getStatus().equals(Constants.Status.Unable_to_complete))
                 {
                     statusSpinner.setSelection(2);
                 }
@@ -145,7 +147,7 @@ public class EditItemActivity extends BaseActivity
             else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
                 am_pm = "PM";
             String minutestr = (minute < 10) ? ("0" + minute) : String.valueOf(minute);
-                    String strHrsToShow = ((datetime.get(Calendar.HOUR) == 0) ?"12":datetime.get(Calendar.HOUR)+":") + minutestr + " ";
+            String strHrsToShow = ((datetime.get(Calendar.HOUR) == 0) ?"12":datetime.get(Calendar.HOUR))+":" + minutestr + " ";
             pickTimeTxt.setText(strHrsToShow + " " + am_pm);
             pickTimeTxt.setTag(hourOfDay + ":" + minute);
             this.getDialog().dismiss();
@@ -198,7 +200,8 @@ public class EditItemActivity extends BaseActivity
         }
     }
 
-    public void showDatePickerDialog(View v) {
+    public void showDatePickerDialog(View v)
+    {
         DialogFragment newFragment = new DatePickerFragment();
         Bundle args = new Bundle();
         args.putString("type", v.getTag().toString());

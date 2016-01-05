@@ -25,9 +25,9 @@
     <color name="footer_bgcolor">#BEBEBE</color>
     <color name="txtcolor">#000099</color>
     <string-array name="donearray">
+        <item>Yet_to_complete</item>
         <item>Done</item>
         <item>Unable_to_complete</item>
-        <item>Yet_to_complete</item>
     </string-array>
     <string-array name="priorityarray">
         <item>High</item>

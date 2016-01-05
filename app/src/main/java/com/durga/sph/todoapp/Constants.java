@@ -14,8 +14,8 @@ public class Constants
     }
     public static enum Status
     {
-        Done,
         Yet_to_complete,
+        Done,
         Unable_to_complete;
         //private String displayName;
 
